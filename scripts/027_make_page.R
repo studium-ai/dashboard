@@ -1,7 +1,7 @@
 img_data <- base64enc::dataURI(file = "www/STUDIUM.AI_RGB.png", mime = "image/png")
 
 
-page_fillable(tagList(
+page = page_fillable(tagList(
   div(style = "display: flex; align-items: center;",
     tags$img(src = img_data, height = "50px", style = "margin-right:10px;"),
     h1("Dashboard"),
@@ -32,3 +32,6 @@ page_fillable(tagList(
                          nav_panel("Theses", br(),the_value_boxes,
                                    layout_column_wrap(the_card1,the_card2, the_card3, the_card4 )),
                          nav_panel("Merged",br(), merged_value_boxes, layout_column_wrap(card14))))
+
+
+htmltools::save_html(page, file = 'studium_dashboard.html')
