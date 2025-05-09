@@ -2,7 +2,7 @@ library(tidyverse)
 
 library(data.table)
 
-file_list = list.files('studium_export/', full.names = TRUE)
+file_list = list.files('/Users/ghum-m-ae231206/Downloads/Documents', full.names = TRUE)
 
 all_files = lapply(file_list, fread)
 

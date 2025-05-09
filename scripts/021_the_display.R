@@ -19,6 +19,6 @@ the_df3 = df8|>
 the_df4 = df9|> 
   rename(`Date unknown` = NAth, ` `  = name_english ) |>
   kableExtra::kbl() |> kableExtra::kable_styling()  |>
-  kableExtra::collapse_rows(columns = 1) |>
+ # kableExtra::collapse_rows(columns = 1) |>
   add_header_above(c(" " = 3,"Century" = 4))
 

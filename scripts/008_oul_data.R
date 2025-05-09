@@ -210,7 +210,12 @@ recht = ps_inst_table %>%
 
 ps_institutions_table = rbind(faculties |> select(ps_att_id, inst_attest = faculty1, inst_id),
                               pedagogies |> select(ps_att_id, inst_attest = pedagogy, inst_id),
-                              recht |> select(ps_att_id, inst_attest = recht, inst_id))
+                              recht |> select(ps_att_id, inst_attest = recht, inst_id)) |> 
+  mutate(ps_att_id = as.character(ps_att_id))|> 
+  mutate(inst_id = as.character(inst_id))
+
+
+
 df2 = ps_att |> 
   filter(str_detect(import, "Scholar")) |>
   distinct(ps_att_id, .keep_all = TRUE) |>

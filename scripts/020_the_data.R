@@ -75,7 +75,7 @@ df8 = ps_att |>
 df9 = sources |> filter(str_detect(import, "the_ingest"))  |> 
   mutate(century = get_century(y1)) |>
  left_join( source_institutions, by = 'source_id' )|> 
-  left_join(institutions, by = c('inst_id' = 'institution_id')) |> 
+  left_join(institutions, by = 'institution_id') |>
   group_by(century, name_english) |>
   summarise(n = n()) |>
   group_by(name_english) |>
