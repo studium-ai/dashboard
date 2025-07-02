@@ -4,15 +4,15 @@ options(knitr.kable.NA = '-')
 library(kableExtra)
 library(htmltools)
 library(bslib)
-tbl = df |> select(-type) |>
-  kableExtra::kbl() |> kableExtra::kable_styling() %>%
-  #kableExtra::kable_paper("striped", full_width = T) |>
-  kableExtra::collapse_rows(columns = 1) |> 
-  pack_rows("Age", 1, 3) |> 
-  pack_rows("Faculty", 4, 14)|> 
-  pack_rows("Inscription fee", 15, 20)|> 
-  pack_rows("Gender", 21, 23)|>
-  add_header_above(c(" " = 1, " " = 2, "Century" = 4))
+# tbl = df |> select(-type) |>
+#   kableExtra::kbl() |> kableExtra::kable_styling() %>%
+#   #kableExtra::kable_paper("striped", full_width = T) |>
+#   kableExtra::collapse_rows(columns = 1) |> 
+#   pack_rows("Age", 1, 3) |> 
+#   pack_rows("Faculty", 4, 14)|> 
+#   pack_rows("Inscription fee", 15, 20)|> 
+#   pack_rows("Gender", 21, 23)|>
+#   add_header_above(c(" " = 1, " " = 2, "Century" = 4))
 
 mbl_tbl1 =  df1 |> select(-type) |>
   kableExtra::kbl() |> kableExtra::kable_styling() %>%

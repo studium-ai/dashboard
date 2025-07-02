@@ -14,3 +14,11 @@ md_tbl1 = md_df1 |>
 md_tbl2 = df5 |>
   kableExtra::kbl() |> kableExtra::kable_styling()  |>
   kableExtra::collapse_rows(columns = 1)
+
+md_tbl3 = md_matr_df |> 
+  kableExtra::kbl() |>
+  kableExtra::kable_styling()|>
+  pack_rows("Age", 1, 3)  |>
+  pack_rows("Pedagogy/Faculty", 4, 10) |>
+  pack_rows("Inscription fee", 11, 14) 
+

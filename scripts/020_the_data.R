@@ -21,7 +21,7 @@ the_ps_att = ps_att |>
   filter(str_detect(import, "the_")) |> 
   select(ps_id, ps_att_id, y1) |> 
   left_join(person_inst, by = 'ps_att_id') |> 
-  left_join(institutions, by = 'institution_id') |> 
+  left_join(institutions, by = 'institution_id') |>  
   mutate(century = get_century(y1)) |> 
   group_by(century, name_english) |>
   summarise(n = n()) |> 
@@ -38,13 +38,9 @@ the_persons_id = persons |> filter(ps_id %in% the_persons) |> pull(merged_id)
 
 the_ps_id = persons |> filter(merged_id %in% the_persons_id) |> pull(ps_id)
 
-
-
-
-
 df7 = ps_att |> 
   filter(str_detect(import, "Matrikels2")) |> filter(ps_id %in% the_ps_id) |>
-  distinct(ps_att_id, .keep_all = TRUE) |> 
+  distinct(ps_id, .keep_all = TRUE) |> 
   mutate(century = get_century(y1)) |> 
   group_by(century, wealth) |> 
   summarise(n = n()) |>
@@ -59,9 +55,9 @@ df7 = ps_att |>
 df8 = ps_att |> 
   filter(str_detect(import, "Matrikels2")) |> 
   filter(ps_id %in% the_ps_id) |>
-  distinct(ps_id, .keep_all = TRUE) |> 
+  distinct(ps_id, .keep_all = TRUE) |>
   mutate(century = get_century(y1)) |> 
-  left_join(ps_att_institutions, by = 'ps_att_id') |> 
+  left_join(ps_att_institutions, by = 'ps_att_id') |>
   left_join(institutions, by = 'institution_id')|>
   group_by(century, name_english) |> 
   summarise(n = n()) |>
@@ -74,8 +70,8 @@ df8 = ps_att |>
 
 df9 = sources |> filter(str_detect(import, "the_ingest"))  |> 
   mutate(century = get_century(y1)) |>
- left_join( source_institutions, by = 'source_id' )|> 
-  left_join(institutions, by = 'institution_id') |>
+ left_join(source_institutions, by = 'source_id' )|> 
+  left_join(institutions, by = c('inst_id' = 'institution_id')) |> 
   group_by(century, name_english) |>
   summarise(n = n()) |>
   group_by(name_english) |>
@@ -86,10 +82,13 @@ df9 = sources |> filter(str_detect(import, "the_ingest"))  |>
   arrange(name_english) |> select(name_english, Total, Percent, everything())
 
 
-the_total_persons = nrow(ps_att  |> left_join(persons |> select(ps_id, merged_id))|> distinct(merged_id, .keep_all = TRUE) |>
-                           filter(str_detect(import, "the_")))
+the_total_persons = nrow(ps_att |>
+                           filter(str_detect(import, "the_")) |>
+                           left_join(persons |> 
+                                       select(ps_id, merged_id))|> 
+                           distinct(merged_id, .keep_all = TRUE) )
 
-the_total_sources = nrow(ps_att |> distinct(ps_id, .keep_all = TRUE) |> 
+the_total_sources = nrow(sources |> 
                            filter(str_detect(import, "the_")) |> distinct(source_id))
 
 the_ps_att = ps_att |> distinct(ps_att_id, .keep_all = TRUE) |> 

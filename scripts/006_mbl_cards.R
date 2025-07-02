@@ -1,8 +1,5 @@
 library(plotly)
 
-card1 = card(HTML(tbl))
-
-
 
 mbl_card1 = card(card_header("Age category"),HTML(mbl_tbl1))
 

@@ -2,12 +2,11 @@ library(tidyverse)
 
 library(data.table)
 
-file_list = list.files('/Users/ghum-m-ae231206/Downloads/Documents', full.names = TRUE)
+file_list = list.files('./Documents/', pattern = "tab", full.names = TRUE)
 
 all_files = lapply(file_list, fread)
 
 names(all_files) = basename(file_list)
-
 
 get_century = function(date){
   
@@ -20,7 +19,7 @@ get_century = function(date){
   
 }
 
-md_xml_file_path = "/Users/ghum-m-ae231206/Library/CloudStorage/OneDrive-KULeuven/Shared_data_studium/4 Magister Dixit (through ALMA of the KU Leuven libraries' Special Collections)/20230728_Alma_Lecturenotes_all.xml"
+md_xml_file_path = "https://raw.githubusercontent.com/KULeuvenDigitalisering/Magister-Dixit-Collection-Dataset/refs/heads/master/20230728_MetadataAlma_LectureNotes_all.xml"
 
 source('../marc-exporter/extract_marc.R')
 

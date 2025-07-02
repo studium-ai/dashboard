@@ -1,6 +1,6 @@
 library(openxlsx)
 
-# Load the existing workbook
+# Load existing workbook
 wb <- loadWorkbook("combined_data.xlsx")
 
 # Add new worksheet
@@ -10,14 +10,19 @@ addWorksheet(wb, "MD")
 sectionHeaderStyle <- createStyle(textDecoration = "bold", fontSize = 12)
 columnHeaderStyle <- createStyle(textDecoration = "bold")
 
-# Split the data
-arts_df <- md_df1[1:5, ]
-other_df <- md_df1[6:9, ]
+# Create a list of section titles and dataframes
+sections <- list(
+  "Faculties" = md_df1,
+  "Roles" = df5,
+  "Matriculation - Age" = df1,
+  "Matriculation - Pedagogy/faculty" = df2,
+  "Matriculation - Inscription fee" = df3
+)
 
 # Row tracker
 current_row <- 1
 
-# Function to write a labeled section
+# Helper function to write each section
 write_section <- function(title, df, wb, sheet, start_row) {
   writeData(wb, sheet, title, startRow = start_row, colNames = FALSE)
   addStyle(wb, sheet, style = sectionHeaderStyle, rows = start_row, cols = 1, gridExpand = TRUE)
@@ -28,9 +33,12 @@ write_section <- function(title, df, wb, sheet, start_row) {
   return(start_row + nrow(df) + 3)
 }
 
-# Write both sections to the sheet
-current_row <- write_section("Faculty of Arts", arts_df, wb, "MD", current_row)
-current_row <- write_section("Other Faculties", other_df, wb, "MD", current_row)
+# Write all sections
+for (i in seq_along(sections)) {
+  title <- names(sections)[i]
+  df <- sections[[i]]
+  current_row <- write_section(title, df, wb, "MD", current_row)
+}
 
-# Save updated workbook
+# Save workbook
 saveWorkbook(wb, "combined_data.xlsx", overwrite = TRUE)

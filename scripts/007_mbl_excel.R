@@ -25,8 +25,9 @@ write_section <- function(wb, sheet, title, df, start_row) {
 }
 
 # Write each section
-current_row <- write_section(wb, "MBL", "Age Category", df1, current_row)
+
 current_row <- write_section(wb, "MBL", "Institutions", df2|> select(-type) , current_row)
+current_row <- write_section(wb, "MBL", "Age Category", df1, current_row)
 current_row <- write_section(wb, "MBL", "Wealth Category", df3|> select(-type) , current_row)
 current_row <- write_section(wb, "MBL", "Gender", df4|> select(-type) , current_row) 
 

@@ -32,5 +32,5 @@ dalet_ps_id = ps_table |>
 
 
 
-id_matches = rbind(fm_ps_id, odis_ps_id,dalet_ps_id) |> distinct(ps_id, .keep_all = TRUE)
+id_matches = rbind(odis_ps_id,dalet_ps_id) |> distinct(ps_id, .keep_all = TRUE)
             

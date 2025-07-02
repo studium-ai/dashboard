@@ -1,17 +1,23 @@
 t3 = ps_att  |> 
-  filter(role %in% c('publisher', 'printer', 'professor', 'student', 'editor', 'castigator', 'commentator', 'translator', 'corrector'))|> 
+  filter(role %in% c('publisher', 'printer', 'professor', 'student', 'editor', 'castigator', 'commentator', 'translator', 'corrector', 'approbator', 'author', 'dedicatee'))|> 
   distinct(ps_att_id, .keep_all = TRUE) |>
   filter(str_detect(import, "ML")) |> 
   left_join(persons, by = 'ps_id') |>
   mutate(century = get_century(y1)) |> 
   group_by(century, role) |> 
-  summarise(n = n())|>
+  summarise(n = n()) |>
+  ungroup() |> 
+  group_by(role) |> 
+  mutate(total = sum(n)) |> 
+  arrange(desc(total)) |>
   pivot_wider(names_from = 'century', values_from = 'n') 
 
 
 
-ml_total_persons = nrow(ps_att |> distinct(ps_id, .keep_all = TRUE) |> 
-                           filter(str_detect(import, "ML")))
+ml_total_persons = nrow( ps_att|>
+                           filter(str_detect(import, "ML")) |> 
+                           left_join(persons |> select(ps_id, merged_id)) |>
+                           distinct(merged_id, .keep_all = TRUE) )
 
 ml_ps_att = ps_att |> distinct(ps_id, .keep_all = TRUE) |> 
   filter(str_detect(import, "ML")) |> pull(ps_att_id)

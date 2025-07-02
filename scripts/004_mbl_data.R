@@ -1,6 +1,6 @@
 df1 = ps_att |> 
   filter(str_detect(import, "Matrikels2")) |>
-  distinct(ps_att_id, .keep_all = TRUE) |>
+  distinct(ps_id, .keep_all = TRUE) |>
   mutate(century = get_century(y1)) |>
   group_by(century, age) |> 
   summarise(n = n()) |>
@@ -64,8 +64,10 @@ df4 = ps_att |>
 
 df= data.table::rbindlist(list(df1, df2, df3, df4), use.names = FALSE)
 
-mat_total_persons = nrow(ps_att |> distinct(ps_id, .keep_all = TRUE) |> 
-                           filter(str_detect(import, "Matrikel")))
+mat_total_persons = nrow( ps_att|>
+                           filter(str_detect(import, "Matrikel")) |> 
+                           left_join(persons |> select(ps_id, merged_id)) |>
+                           distinct(merged_id, .keep_all = TRUE))
 
 mat_ps_att = ps_att |> distinct(ps_att_id, .keep_all = TRUE) |> 
   filter(str_detect(import, "Matrikel")) |> pull(ps_att_id)
